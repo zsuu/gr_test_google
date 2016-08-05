@@ -1,19 +1,17 @@
-import hu.bir.spec.KioskSpec
+import com.zsu.spec.GoogleSpec
 import org.apache.commons.io.IOUtils
 import spock.util.EmbeddedSpecRunner
 
 class Main {
 
+    /* windows + chrome only yet */
     static void main(String[] args) {
-        if ( args.length < 1 ) {
-            System.out.println("Please specify KIOSK base url as first argument, eg. http://localhost:8095")
-            System.exit(1)
-        }
+        String baseUrl = "http://www.google.co.uk"
 
-        String baseUrl = args[0]
-
-        if ( args.length > 1 ) {
-            KioskSpec.delay = Integer.parseInt(args[1]) * 1000
+        if ( args.length > 0 ) {
+            GoogleSpec.delay = Integer.parseInt(args[0]) * 1000
+        } else {
+            GoogleSpec.delay = 1000
         }
 
         File chromeDriver = getTempfile("/chromedriver.exe")
@@ -24,7 +22,7 @@ class Main {
         System.setProperty("geb.build.baseUrl", baseUrl)
 
         EmbeddedSpecRunner embeddedSpecRunner = new EmbeddedSpecRunner()
-        embeddedSpecRunner.runClass(KioskSpec)
+        embeddedSpecRunner.runClass(GoogleSpec)
     }
 
     private static File getTempfile(String path) throws IOException {
